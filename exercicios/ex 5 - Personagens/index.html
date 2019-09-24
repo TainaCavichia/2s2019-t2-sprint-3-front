@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<head>
+
+    <title>Exercicios</title>
+
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <script>
+        let personagens = [{
+            nome: "Capitão Cometa",
+            dataAparicao: 1951,
+            editora: "DC"
+        }, {
+            nome: "Lanterna Verde",
+            dataAparicao: 1940,
+            editora: "DC"
+        }, {
+            nome: "Ciborgue",
+            dataAparicao: 1980,
+            editora: "DC"
+        }, {
+            nome: "Homem Aranha",
+            dataAparicao: 1962,
+            editora: "Marvel"
+        }, {
+            nome: "Homem de Ferro",
+            dataAparicao: 1963,
+            editora: "Marvel"
+        }, {
+            nome: "Capitão América",
+            dataAparicao: 1940,
+            editora: "Marvel"
+        }];
+
+        //listando nome dos personagens da Marvel
+        let i = 0;
+        while(i < personagens.length)
+        {
+            if (personagens[i].editora == "Marvel") {
+                console.log(personagens[i].nome);
+            }
+            i++;
+        }
+        
+        //listando por data de aparição
+        personagens.forEach(element => {
+            if (personagens[i].dataAparicao > 1950) {
+                console.log(personagens[i]);
+            }
+            i++;
+        })
+
+        //array de nomes
+        let nome = personagens.map(element => {
+            return element.nome;
+        })
+        console.log(nome);
+    </script>
+
+</body>
+
+</html>
