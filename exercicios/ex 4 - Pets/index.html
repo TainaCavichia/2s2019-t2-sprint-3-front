@@ -83,8 +83,9 @@
 
         //quantidade de doguinhos
         let variavel = pets.filter(element => {
-            console.log(element.tipoPet == "cachorro".length);
+        return element.tipoPet == "cachorro".length;
         })
+        console.log(variavel);
 
         //soma idades dos pets   
         let idade = pets.map(element => {

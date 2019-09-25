@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Pokemon</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand">Pokemon</a>
+        <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </nav>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Imagem</th>
+                <th scope="col">Habilidades</th>
+                <th scope="col">Weight</th>
+                <th scope="col">Height</th>
+            </tr>
+        </thead>
+        <tbody id="tabela-lista-corpo"></tbody>
+    </table>
+
+    <script>
+        const input = document.querySelector(".form-control");
+        const button = document.querySelector(".btn");
+        const table = document.querySelector("#tabela-lista-corpo")
+
+        const URL = "https://pokeapi.co/api/v2/pokemon/";
+
+        // button.addEventListener('click', function () {
+        // event.preventDefault();
+        // let objetoJSON = {
+        //     name: input.value
+        // };
+
+        fetch(URL)
+            .then(resposta => resposta.json())
+            .then(data => preencherTabela(data))
+            .catch(erro => console.log(erro));
+
+
+        function preencherTabela(element) {
+            console.log(element)
+            const tr = document.createElement("tr");
+            table.appendChild(tr);
+
+            const td_id = document.createElement("td");
+            td_id.textContent = element.id;
+            tr.appendChild(td_id);
+
+            const td_imagem = document.createElement("td");
+            td_imagem.innerHTML = "<img style='width: 60px;' src='" + element.sprites.front_default + "'>";
+            tr.appendChild(td_imagem);
+
+            const td_habilidade = document.createElement("td");
+            element.abilities.forEach(data => {
+                td_habilidade.innerHTML += "<p>" + data.ability.name + "</p>";
+                tr.appendChild(td_habilidade);
+            })
+
+            const td_weight = document.createElement("td");
+            td_weight.innerText = element.weight;
+            tr.appendChild(td_weight);
+
+            const td_height = document.createElement("td");
+            td_height.innerText = element.height
+            tr.appendChild(td_height);
+        };
+
+    </script>
+</body>
+
+</html>

@@ -66,6 +66,24 @@
             return element.nome;
         })
         console.log(nome);
+
+        //adicionar personagem
+        personagens.push({nome: "Capitã Marvel", dataAparicao: 1977, editora: "Marvel"});
+        console.log(personagens);
+
+        //quantidade de herois da Marvel
+        let variavel = personagens.filter(element => {
+            console.log(element.editora == "Marvel".length);
+        })
+
+        // //somar idades
+        let idade = personagens.map(element => {
+            return 2019 - element.dataAparicao;
+        })
+        let soma = idade.reduce((prevValue, element) => {
+            return prevValue + element;
+        });
+        console.log(soma);
     </script>
 
 </body>
