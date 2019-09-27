@@ -44,7 +44,8 @@
         // let objetoJSON = {
         //     name: input.value
         // };
-
+        
+        //conexão com a API   
         fetch(URL)
             .then(resposta => resposta.json())
             .then(data => preencherTabela(data))
