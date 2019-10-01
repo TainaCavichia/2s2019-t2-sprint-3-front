@@ -4,17 +4,36 @@ import './index.css';
 import App from './pages/Home/App';
 import Categoria from './pages/Categoria/Categoria';
 import NaoEncontrado from './pages/NaoEncontrado/NaoEncontrado';
+import Login from './pages/Login/Login';
 import * as serviceWorker from './serviceWorker';
 
 //rotas
-import {Route, Link, BrowserRouter as Router, Switch} from 'react-router-dom';
+import {Route, Link, BrowserRouter as Router, Switch, Redirect} from 'react-router-dom';
+
+//resto das propriedades = ...rest
+const RotaPrivada = ({component: Component, ...rest}) =>(
+    <Route 
+    {...rest}
+    render = {props => 
+        localStorage.getItem("usuario-gufos") !== null ? 
+            //rota de categorias
+            <Component {...props}/> 
+        : 
+            <Redirect
+                to={{ pathname: "/login", state: {from: props.location} }}
+            />
+    }
+    >        
+    </Route>
+)
 
 const routing = (
     <Router>
         <div>
             <Switch>
             <Route exact path='/' component={App}/>
-            <Route path='/categoria' component={Categoria}/>
+            <RotaPrivada path='/categorias' component={Categoria}/>
+            <Route path='/login' component={Login}/>
             <Route component={NaoEncontrado}/>
             </Switch>
         </div>

@@ -12,25 +12,57 @@ class Categoria extends Component {
 
   constructor() {
     super();
+    //cria uma lista vazia dentro do estado
     this.state = {
       lista: [
         // { idCategoria: 1, nome: "Design" },
         // { idCategoria: 2, nome: "Jogos" },
         // { idCategoria: 3, nome: "Meetup" }
-      ]
+      ],
+      nome: ''
     };
   }
 
+  //faz conexao com a api
+  //sintaxe normal de function
   componentDidMount(){
     fetch('http://localhost:5000/api/categorias')
     .then(response => response.json())
+    //atribui valores da api para a lista 
     .then(data => this.setState({lista: data}));
   }
 
-  adcionaItem = (event)=>{
-    event.preventDefault();
-    this.setState({lista:[{idCategoria: 4, nome: "Nova Categoria"}]});
-    console.log();
+  //criar função = usar arrow function para nao confundir o rolê
+  adcionaItem = ()=>{
+    //recarrega a página
+    //event.preventDefault();
+    
+    //biblioteca externa
+    fetch('http://localhost:5000/api/categorias',{
+      method: "POST",
+      body: JSON.stringify({nome: this.state.nome}),
+      headers:{
+        "Content-Type" : "application/json"
+      }
+    })
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.log(error));
+  }
+  
+  adicionaCategoria = (event)=>{
+    //capturei valores da lista
+    let valores_lista = this.state.lista;
+    let categoria = {idCategoria: this.state.nome}
+    
+    valores_lista.push(categoria);
+
+    this.setState({lista: valores_lista});
+  }
+
+  atualizarNome = (event)=>{
+    this.setState({nome: event.target.value})
+    console.log(this.state)    
   }
 
   render() {
@@ -60,6 +92,7 @@ class Categoria extends Component {
 
                 <tbody id="tabela-lista-corpo">
                   {this.state.lista.map(element => {
+                    //acessa a lista e faz um "foreach" que é o map
                     return (
                       <tr>
                         <tr>{element.idCategoria}</tr>
@@ -82,8 +115,11 @@ class Categoria extends Component {
                     className="className__categoria"
                     id="input__categoria"
                     placeholder="tipo do evento"
+                    value={this.state.nome}
+                    onChange={this.atualizarNome}
                   />
                   <button
+                  //"this" se refere a classe Categoria
                     onClick={this.adcionaItem}
                     id="btn__cadastrar"
                     className="conteudoPrincipal-btn conteudoPrincipal-btn-cadastro"
