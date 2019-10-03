@@ -6,6 +6,7 @@ import logo from '../../assets/img/icon-login.png';
 
 //component
 import Rodape from '../../components/Rodape/Rodape';
+import Titulo from '../../components/Titulo/Titulo';
 
 //herança, poderemos usar o que tem no component
 class Categoria extends Component {
@@ -26,39 +27,42 @@ class Categoria extends Component {
   //faz conexao com a api
   //sintaxe normal de function
   componentDidMount(){
-    fetch('http://localhost:5000/api/categorias')
+    this.listaAtualizada();
+  }
+
+  listaAtualizada = () => {
+    fetch('http://192.168.7.85:5000/api/categorias')
     .then(response => response.json())
     //atribui valores da api para a lista 
     .then(data => this.setState({lista: data}));
   }
 
   //criar função = usar arrow function para nao confundir o rolê
-  adcionaItem = ()=>{
+  adcionaItem = (event)=>{
     //recarrega a página
-    //event.preventDefault();
+    event.preventDefault();
     
     //biblioteca externa
-    fetch('http://localhost:5000/api/categorias',{
+    fetch('http://192.168.7.85:5000/api/categorias',{
       method: "POST",
       body: JSON.stringify({nome: this.state.nome}),
       headers:{
         "Content-Type" : "application/json"
       }
     })
-    .then(response => response.json())
-    .then(data => console.log(data))
+    .then(this.listaAtualizada)
     .catch(error => console.log(error));
   }
   
-  adicionaCategoria = (event)=>{
-    //capturei valores da lista
-    let valores_lista = this.state.lista;
-    let categoria = {idCategoria: this.state.nome}
+  // adicionaCategoria = ()=>{
+  //   //capturei valores da lista
+  //   let valores_lista = this.state.lista;
+  //   let categoria = {idCategoria: this.state.nome}
     
-    valores_lista.push(categoria);
+  //   valores_lista.push(categoria);
 
-    this.setState({lista: valores_lista});
-  }
+  //   this.setState({lista: valores_lista});
+  // }
 
   atualizarNome = (event)=>{
     this.setState({nome: event.target.value})
@@ -80,7 +84,7 @@ class Categoria extends Component {
 
         <main className="conteudoPrincipal">
           <section className="conteudoPrincipal-cadastro">
-            <h1 className="conteudoPrincipal-cadastro-titulo">Categorias</h1>
+            <Titulo titulo='Categorias'/>
             <div className="container" id="conteudoPrincipal-lista">
               <table id="tabela-lista">
                 <thead>

@@ -9,20 +9,19 @@ import * as serviceWorker from './serviceWorker';
 
 //rotas
 import {Route, Link, BrowserRouter as Router, Switch, Redirect} from 'react-router-dom';
+import Eventos from './pages/Eventos/Eventos';
 
 //resto das propriedades = ...rest
-const RotaPrivada = ({component: Component, ...rest}) =>(
+//só poderão acessar as páginas com a rota privada os usuários logados
+//component = página Categoria
+const RotaPrivada = ({component: Component}) =>(
     <Route 
-    {...rest}
+    //props= propriedades como path e component = atributos
     render = {props => 
         localStorage.getItem("usuario-gufos") !== null ? 
             //rota de categorias
-            <Component {...props}/> 
-        : 
-            <Redirect
-                to={{ pathname: "/login", state: {from: props.location} }}
-            />
-    }
+            <Component {...props}/> : <Redirect to={{ pathname: "/login", state: {from: props.location} }}/>
+            }
     >        
     </Route>
 )
@@ -33,6 +32,7 @@ const routing = (
             <Switch>
             <Route exact path='/' component={App}/>
             <RotaPrivada path='/categorias' component={Categoria}/>
+            <RotaPrivada path='/eventos' component={Eventos}/>
             <Route path='/login' component={Login}/>
             <Route component={NaoEncontrado}/>
             </Switch>
